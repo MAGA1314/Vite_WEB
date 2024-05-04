@@ -1,5 +1,14 @@
 {
+  "name": "VITE_WEB",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^5.2.11"
+  },
   "dependencies": {
+    "firebase": "^10.11.1",
     "react-router-dom": "^6.23.0"
   }
 }
