@@ -1,44 +1,38 @@
+import './App.css';
+import { useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import appFirebase from './Credenciales';
+import { Routes, Route } from 'react-router-dom';
+import Inicio from './components/Inicio';
+import Registro from './components/Registro';
+import Contacto from './components/Contacto'; // Asegúrate de importar este componente
+import AboutUS from './components/AboutUS'; // Asegúrate de importar este componente
 
-import './App.css'
-import { useState } from 'react'
-// Importar Modulos de Firebase
-import appFirebase from './Credenciales'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-const auth = getAuth(appFirebase)
-
-import { Routes, Route } from 'react-router-dom'
-
-//importar componentes
-import { Registro } from './components/Registro'
-import Inicio from './components/Inicio'
-// import Contacto from './components/Contascto'
-// import AboutUS from './components/AboutUS'
-// import { useState } from 'react'
+const auth = getAuth(appFirebase);
 
 function App() {
   const [usuario, setUsuario] = useState(null);
 
-  onAuthStateChanged(auth, (usuarioFirebase)=>{
-    if ( usuarioFirebase){
-      setUsuario(usuarioFirebase)
-    }else{
-      setUsuario(null);
-    }
-    
-  });
-  return (
-    <>
-      {usuario ? <Inicio correoUsuario = {usuario.email}/> : <Registro/>}
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (usuarioFirebase) => {
+      if (usuarioFirebase) {
+        setUsuario(usuarioFirebase);
+      } else {
+        setUsuario(null);
+      }
+    });
 
-      {/* <Routes>
-        <Route path="/" element = {<Inicio/>} />
-        <Route path="/contacto" element = {<Contacto/>} />
-        <Route path="/about" element = {<AboutUS/>} />
-        
-      </Routes> */}
-    </>
-    
-  )
+    // Limpiar la suscripción al desmontar el componente
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <Routes>
+      <Route path="/" element={usuario? <Inicio correoUsuario={usuario.email} /> : <Registro />} />
+      <Route path="/contacto" element={<Contacto />} />
+      <Route path="/about" element={<AboutUS />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;

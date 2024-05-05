@@ -17,7 +17,7 @@
   margin-bottom: 20px;
 }
 .caja-texto{
-  background-color: #cccccc40;
+  background-color: #2e2e2e40;
   border-color: blueviolet;
   border-radius: 40px;
   width: 100%;
@@ -28,6 +28,7 @@
 .caja-texto:focus{
   outline: 1px solid blueviolet;
   box-shadow: 0 0 10px blueviolet;
+  color: blueviolet;
 }
 .btnform{
   background-color: rgb(110, 45, 172);
